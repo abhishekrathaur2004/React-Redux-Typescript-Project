@@ -1,6 +1,5 @@
 // import Characters from "../component/Characters"
 import { useEffect, useState } from "react";
-
 import Hero from "../component/Hero";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
@@ -13,6 +12,7 @@ import Pagination from "../component/Pagination";
 
 const Home = () => {
   // const [selectedItem, setSelectedItem] = useState<string>("Characters");
+  
   const selectedItem = useSelector((state : RootState) => state.dataSet.selectedType)
   const characters = useSelector(
     (state: RootState) => state.dataSet.characters

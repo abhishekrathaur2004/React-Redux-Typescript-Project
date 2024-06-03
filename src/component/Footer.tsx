@@ -19,7 +19,7 @@ const Footer = () => {
             </NavLink>
           </li>
           <li className = "hover:text-orange-500">
-            <NavLink to='/search'>
+            <NavLink to='/'>
               Episodes : 51
             </NavLink>
           </li>
