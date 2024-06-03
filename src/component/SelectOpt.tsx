@@ -1,10 +1,15 @@
 // Define the options for the select field
 const options: string[] = ["Characters", "Locations", "Episodes"];
+import { useDispatch } from "react-redux";
 
-const SelectForm: React.FC = ({setSelectedItem} : any) => {
+import { setSelectedType } from "../feature/dataSlice";
+const SelectForm: React.FC = () => {
+    
+    const dispatch = useDispatch();
     
     function handleChange(e : any){
-        setSelectedItem(e.target.value)
+        // setSelectedItem(e.target.value)
+        dispatch(setSelectedType(e.target.value))
     }
     
 

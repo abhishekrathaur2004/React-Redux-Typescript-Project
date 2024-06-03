@@ -12,7 +12,8 @@ import LocationCard from "../component/LocationCard";
 import Pagination from "../component/Pagination";
 
 const Home = () => {
-  const [selectedItem, setSelectedItem] = useState<string>("Characters");
+  // const [selectedItem, setSelectedItem] = useState<string>("Characters");
+  const selectedItem = useSelector((state : RootState) => state.dataSet.selectedType)
   const characters = useSelector(
     (state: RootState) => state.dataSet.characters
   );
@@ -55,7 +56,7 @@ const Home = () => {
     setCurrentPage(1);
   },[selectedItem])
 
-  const DisplayContent: () => any = (item: string) => {
+  const DisplayContent: (item : string) => any = (item: string) => {
     switch (item) {
       case "Characters":
         return characters.map((character) => <CharacterCard {...character} />);
@@ -77,7 +78,8 @@ const Home = () => {
       <div className="100vw bg-slate-800">
         <div className="flex justify-between text-xl items-center px-20">
           <div className="text-center pt-10 text-white">
-            <SelectForm setSelectedItem={setSelectedItem} />
+            {/* <SelectForm setSelectedItem={setSelectedItem} /> */}
+            <SelectForm />
           </div>
           <div>
             <h2 className="text-center pt-10 text-white text-4xl">

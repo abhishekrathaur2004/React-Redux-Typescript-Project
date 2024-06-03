@@ -46,4 +46,5 @@ export interface Dataset{
     episodes : Episode[],
     locations : Location[]
     bgColor? : string;
+    selectedType : string
 }

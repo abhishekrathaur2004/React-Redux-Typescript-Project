@@ -10,7 +10,8 @@ import {Character,Location, Dataset, Episode} from '../component/Schema';
 const initialState: Dataset  = {
   characters : [],
   episodes : [],
-  locations : []
+  locations : [],
+  selectedType : 'Characters'
 };
 
 
@@ -26,11 +27,14 @@ export const datasetSlice = createSlice({
     },
     setLocations(state, action: PayloadAction<Location[]>) {
     state.locations = action.payload;
+    },
+    setSelectedType(state , action : PayloadAction<string>){
+      state.selectedType = action.payload
     }
         
   },
 });
 
-export const { setCharacters, setEpisodes, setLocations } = datasetSlice.actions;
+export const { setCharacters, setEpisodes, setLocations , setSelectedType} = datasetSlice.actions;
 
 export default datasetSlice.reducer;

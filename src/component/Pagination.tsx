@@ -35,7 +35,7 @@ const Pagination: React.FC<PaginationProps> = ({currentPage,totalPages, onPageCh
       pageNumbers.push(
         <button
           key={i}
-          className={`mx-1 px-3 py-1 rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+          className={`mx-1 px-3 py-1 text-sm rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
           onClick={() => handlePageClick(i)}
         >
           {i}
@@ -48,7 +48,7 @@ const Pagination: React.FC<PaginationProps> = ({currentPage,totalPages, onPageCh
   return (
     <div className="flex justify-center my-4">
       <button
-        className="mx-1 px-3 py-1 rounded bg-gray-200"
+        className="mx-1 px-3 py-1 text-sm rounded bg-gray-200"
         onClick={handlePrevious}
         disabled={currentPage === 1}
       >
@@ -56,7 +56,7 @@ const Pagination: React.FC<PaginationProps> = ({currentPage,totalPages, onPageCh
       </button>
       {renderPageNumbers()}
       <button
-        className="mx-1 px-3 py-1 rounded bg-gray-200"
+        className="mx-1 px-3 py-1 text-sm rounded bg-gray-200"
         onClick={handleNext}
         disabled={currentPage === totalPages}
       >
