@@ -27,6 +27,7 @@ export interface Episode {
     characters : string[],
     episode : string;
     created : string;
+    bgColor? : string;
 }
 
 export interface Location {
@@ -37,9 +38,11 @@ export interface Location {
     dimension : string;
     created: string;
     residents : string[];
+    bgColor? : string;
 }
 export interface Dataset{
     characters : Character[],
     episodes : Episode[],
     locations : Location[]
+    bgColor? : string;
 }
