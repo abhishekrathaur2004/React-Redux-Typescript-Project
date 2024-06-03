@@ -139,7 +139,7 @@ const MyForm: React.FC = () => {
           placeholder="Species"
         />
       </div>
-      <div className="mb-6 flex justify-between text-gray-50 bg-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2.5">
+      <div className="mb-6 flex justify-between text-gray-50 bg-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-60 p-2.5">
         <label className="text-left flex-1" htmlFor="gender">
           Gender:
         </label>
@@ -157,7 +157,7 @@ const MyForm: React.FC = () => {
           <option value="unknown">Unknown</option>
         </select>
       </div>
-      <div className="mb-6 flex justify-between text-gray-50 bg-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2.5">
+      <div className="mb-6 flex justify-between text-gray-50 bg-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-60 p-2.5">
         <label className="text-left flex-1" htmlFor="status">
           Status:
         </label>

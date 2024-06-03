@@ -28,6 +28,7 @@ export interface Episode {
     episode : string;
     created : string;
     bgColor? : string;
+    fontColor ?: string
 }
 
 export interface Location {

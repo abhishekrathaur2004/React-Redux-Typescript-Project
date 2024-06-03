@@ -1,10 +1,10 @@
-import { useState } from "react";
+
 import { Location} from "./Schema";
 import { NavLink } from "react-router-dom";
 import { CiLocationOn } from "react-icons/ci";
 import { IoMdArrowRoundForward } from "react-icons/io";
 const LocationCard: React.FC<any> = (props : Location) => {
-    const [episodeName, setEpisodeName] = useState('');
+
     // console.log(props)
    
     // console.log(episodeName)

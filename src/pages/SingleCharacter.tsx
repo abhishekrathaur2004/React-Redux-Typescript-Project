@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { Character, Episode } from "../component/Schema";
 import { useParams } from "react-router-dom";
-import Loader1 from "../component/Loader";
-import CharacterCard from "../component/CharacterCard";
-import EpisodeCard from "../component/EpisodeCard";
+// import Loader1 from "../component/Loader";
+// import CharacterCard from "../component/CharacterCard";
+import { NavLink } from "react-router-dom";
+import { PiTelevisionLight } from "react-icons/pi";
+// import { IoMdArrowRoundForward } from "react-icons/io";
+import { FaMale } from "react-icons/fa";
+// import { FaMale } from "react-icons/fa";
+import { FaFemale } from "react-icons/fa";
+import { FaCircle } from "react-icons/fa";
+// import EpisodeCard from "../component/EpisodeCard";
 
 const SingleCharacter = () => {
   // const { characterid } = useParams();
@@ -113,20 +120,57 @@ const SingleCharacter = () => {
     return <div>No character found</div>;
   }
   return (
-    <div className="singlecharactercontainer flex py-8 px-4 bg-gray-100 flex-wrap">
+    <div className="singlecharactercontainer flex py-8 px-4 bg-gray-100 flex-wrap border rounded">
       <div className="characterdetail w-full">
-        <h4 className="text-center pb-4 text-3xl">Character Info ....</h4>
-        {characterObj && <CharacterCard bgColor="bg-gray-200" {...characterObj} />}
+        <h4 className="text-center pb-4 text-2xl">Character Info</h4>
+        <div className="w-full px-16 text-center gap-3 flex  items-center flex-wrap">
+          <div className="flex">
+            <img src={`${characterObj.image}`} className="" alt="" />
+          </div>
+          <div className="flex-1">
+            <h4 className="text-2xl">{characterObj.name}</h4>
+            <div className="mb-2">
+              <span>
+                <FaCircle className= {`text-center mr-2 inline ${characterObj.status === 'Alive' && 'text-green-600'} ${characterObj.status === 'Dead' && 'text-red-600'} ${characterObj.status === 'Unknown' && 'text-gray-200'}` }  />
+              </span>
+              <span>{characterObj.status} - {characterObj.species}</span>
+            </div>
+            {
+              characterObj.type && <div className="mb-2">
+              <span className="mr-2">{characterObj.type}</span>
+            </div>
+            }
+            
+            <div className="mb-2">
+              
+              <span className="mr-2">{characterObj.gender === 'Male' && <FaMale className= {`text-center inline text-xl`}/>} {characterObj.gender === 'Female' && <FaFemale className= {`text-center inline text-xl`}/>}</span>
+              <span className="">{characterObj.gender}</span>
+            </div>
+            <div className="mb-2">
+              <span className="mr-2">Location : </span>
+              <span className="mr-2">{characterObj.location.name}</span>
+              <span className="underline block text-sm"><NavLink to={characterObj.location.url} target="_blank">Know more about location</NavLink></span>
+            </div>
+            <div >
+              <span className="mr-2">Created at : </span>
+              <span className="">{characterObj.created}</span>
+            </div>
+            
+          </div>
+        </div>
       </div>
       <div className="episodes px-2 pt-14 bg-gray-100 w-full ">
-        <h4 className="text-center text-3xl">List of episodes ....</h4>
-        <section >
+        <h4 className="text-center text-xl">List of episodes</h4>
+        <section>
           {/* {characters.map((character,index) => (index < 6 ? (<Characters {...character} />) : null))} */}
           {episodeList.length > 0 ? (
             <ul className="py-2 px-4 h-[35vh] overflow-x-scroll overflow-y-hidden home_section_page1_char  text-white flex gap-4">
               {episodeList.map((episodeinfo) => (
-                
-                <EpisodeCard {...episodeinfo}/>
+                <TempEpisodeCard
+                  bgColor="bg-gray-200"
+                  fontColor="text-black"
+                  {...episodeinfo}
+                />
               ))}
             </ul>
           ) : (
@@ -138,4 +182,28 @@ const SingleCharacter = () => {
   );
 };
 
+const TempEpisodeCard: React.FC<any> = (props: any) => {
+  
+  return (
+    <article
+      key={props.id}
+      className={`episode ${props.bgColor || "bg-neutral-600"} ${
+        props.fontColor || "text-bllack"
+      } px-8 min-w-64   rounded flex items-center`}
+    >
+      <NavLink className="flex flex-col h-64" to={`/episode/${props.id}`}>
+        <div className="min-w-4">
+          <PiTelevisionLight className="w-full  h-32" />
+        </div>
+        <div className="flex flex-col h-full text-center ">
+    
+          <h4 className="mb-3 text-xl font-bold hover:text-orange-500">
+            {props.name}
+          </h4>
+          <h4 className="mb-3 text-xl">{props.episode}</h4>
+        </div>
+      </NavLink>
+    </article>
+  );
+};
 export default SingleCharacter;
