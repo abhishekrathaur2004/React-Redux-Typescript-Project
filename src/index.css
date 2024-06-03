@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* global css */
+html{
+    overflow-x: hidden;
+}
+button{
+    cursor: pointer;
+}
+/* hero component */
+.hero{
+    position: relative;
+}
+.hero-image{
+    position: absolute;
+    left: 32rem;
+    top: 0px;
+    background: transparent;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+}
+.hero-image svg{
+    fill: rgb(245, 245, 245);
+}
