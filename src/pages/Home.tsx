@@ -4,84 +4,61 @@ import Hero from "../component/Hero";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import { setCharacters, setEpisodes, setLocations } from "../feature/dataSlice";
-import CharacterCard from "../component/CharacterCard";
 import SelectForm from "../component/SelectOpt";
-import EpisodeCard from "../component/EpisodeCard";
-import LocationCard from "../component/LocationCard";
 import Pagination from "../component/Pagination";
-
+import DisplayContent from "../component/DisplayContent";
 const Home = () => {
   // const [selectedItem, setSelectedItem] = useState<string>("Characters");
-  
-  const selectedItem = useSelector((state : RootState) => state.dataSet.selectedType)
-  const characters = useSelector(
-    (state: RootState) => state.dataSet.characters
+
+  const selectedItem = useSelector(
+    (state: RootState) => state.dataSet.selectedType
   );
-  const episodes = useSelector((state: RootState) => state.dataSet.episodes);
-  const locations = useSelector((state: RootState) => state.dataSet.locations);
+
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState<number>(() => {
-    const storedPage = window.localStorage.getItem('currentPage');
+    const storedPage = window.localStorage.getItem("currentPage");
     return storedPage !== null ? parseInt(storedPage, 10) : 1;
-    
   });
-  
+
   const handlePageChange = (page: number) => {
-    window.localStorage.setItem('currentPage', page.toString());
+    window.localStorage.setItem("currentPage", page.toString());
     setCurrentPage(page);
   };
   useEffect(() => {
-    // if (episodes.length > 0) return;
-    // console.log(selectedItem);
-    // console.log("kitne baar chla");
-    // console.log(currentPage,'ek');
-
     const datafetching: () => any = async () => {
-      if(selectedItem === 'Locations'){
-        const d1 = await fetchItem(`https://rickandmortyapi.com/api/location/?page=${currentPage}`);
+      if (selectedItem === "Locations") {
+        
+        const d1 = await fetchItem(
+          `https://rickandmortyapi.com/api/location/?page=${currentPage}`
+        );
         // if(d1) console.log(d1);
-        if(d1) dispatch(setLocations(d1.results));
-        else dispatch(setLocations([]))
-      }
-      else if(selectedItem === 'Episodes'){
-        const d2 = await fetchItem(`https://rickandmortyapi.com/api/episode/?page=${currentPage}`);
+        if (d1) dispatch(setLocations(d1.results));
+        else dispatch(setLocations([]));
+      } else if (selectedItem === "Episodes") {
+        const d2 = await fetchItem(
+          `https://rickandmortyapi.com/api/episode/?page=${currentPage}`
+        );
         // if(d2) console.log(d2);
-        if(d2) dispatch(setEpisodes(d2.results));
+        if (d2) dispatch(setEpisodes(d2.results));
         else dispatch(setEpisodes([]));
-      }
-      else if(selectedItem === 'Characters'){
-        const d3 = await fetchItem(`https://rickandmortyapi.com/api/character/?page=${currentPage}`);
+      } else if (selectedItem === "Characters") {
+        const d3 = await fetchItem(
+          `https://rickandmortyapi.com/api/character/?page=${currentPage}`
+        );
         // if(d3) console.log(d3);
-        if(d3) dispatch(setCharacters(d3.results));
+        if (d3) dispatch(setCharacters(d3.results));
       }
     };
     datafetching();
-  }, [selectedItem,currentPage]);
-  useEffect(()=>{
-    const storedPage = window.localStorage.getItem('currentPage');
-    if(storedPage){
+  }, [selectedItem, currentPage]);
+  useEffect(() => {
+    const storedPage = window.localStorage.getItem("currentPage");
+    if (storedPage) {
       setCurrentPage(parseInt(storedPage, 10));
     }
     // return (()=> window.localStorage.setItem('currentPage', '1'));
-    
-  },[selectedItem])
+  }, [selectedItem]);
 
-  const DisplayContent: (item : string) => any = (item: string) => {
-    switch (item) {
-      case "Characters":
-        return characters.map((character) => <CharacterCard {...character} />);
-      case "Locations":
-        return locations.map((location) => <LocationCard {...location} />);
-      case "Episodes":
-        return episodes.length > 0 ? (
-          episodes.map((episode) => <EpisodeCard {...episode} />)
-        ) : (
-          null
-        );
-      default:
-        return;
-    }
-  };
   return (
     <div className="home_page ">
       <Hero />
@@ -106,10 +83,9 @@ const Home = () => {
         </div>
         <section className="py-20 px-14 home_section_page1_char  text-white grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
           {/* {characters.map((character,index) => (index < 6 ? (<Characters {...character} />) : null))} */}
-          {DisplayContent(selectedItem) }
+          {DisplayContent()}
         </section>
       </div>
-      
     </div>
   );
 };

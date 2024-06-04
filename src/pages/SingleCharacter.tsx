@@ -1,85 +1,22 @@
 import { useEffect, useState } from "react";
 import { Character, Episode } from '../interface/schema'
 import { useParams } from "react-router-dom";
-// import Loader1 from "../component/Loader";
-// import CharacterCard from "../component/CharacterCard";
 import { NavLink } from "react-router-dom";
 import { PiTelevisionLight } from "react-icons/pi";
-// import { IoMdArrowRoundForward } from "react-icons/io";
 import { FaMale } from "react-icons/fa";
-// import { FaMale } from "react-icons/fa";
 import { FaFemale } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";
 import Loader1 from "../component/Loader";
-// import EpisodeCard from "../component/EpisodeCard";
+
 
 const SingleCharacter = () => {
-  // const { characterid } = useParams();
-  // const [characterObj, setCharacterObj] = useState<Character | null>(null);
-  // const [episodelist, setEpisodeList] = useState<Episode[] | null>(null);
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const character_url: string = `https://rickandmortyapi.com/api/character/${characterid}`;
-  // console.log(character_url);
-  // useEffect(() => {
 
-  //   const fetchItem: () => any = async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       const res: any = await fetch(character_url);
-
-  //       if (!res.ok) {
-  //         setIsLoading(false);
-  //         return ;
-  //       }
-  //       const data = await res.json();
-  //       setCharacterObj(data);
-
-  //       const episodes = data.episode;
-  //       console.log(episodes);
-
-  //       const ids: string[] = episodes.map((url: string) => {
-  //         const splits = url.split("/");
-  //         return splits[splits.length - 1];
-  //       });
-  //       // console.log(ids);
-  //       const episodesUrlPromises = ids.map((id) => {
-  //         fetch(`https://rickandmortyapi.com/api/episode/${id}`);
-  //       });
-  //       const episodesResponses = await Promise.all(episodesUrlPromises);
-  //       // const episodesData = await episodesResponses.map((res:any) => res.json());
-  //       console.log(episodesResponses);
-
-  //       setTimeout(() => {
-  //         setIsLoading(false);
-  //       }, 2000);
-  //       fetchItem();
-
-  //     } catch (error) {
-  //       setIsLoading(false);
-  //       console.log(error);
-  //     }
-  //   };
-  // }, [character_url]);
-  // console.log(characterObj);
-  // if (isLoading) {
-  //   return (
-  //     <>
-  //       <Loader1 />
-  //     </>
-  //   );
-  // }
-  // if(!characterObj){
-  //   return(
-  //     <h3>
-  //       No character found .. !!!
-  //     </h3>
-  //   )
-  // }
   const { characterid } = useParams<{ characterid: string }>();
   const [characterObj, setCharacterObj] = useState<Character | null>(null);
   const [episodeList, setEpisodeList] = useState<Episode[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isEpisodesLoading, setIsEpisodesLoading] = useState<boolean>(false);
+  const [locationId, setLocationId] = useState<string | null>(null)
 
   const character_url: string = `https://rickandmortyapi.com/api/character/${characterid}`;
 
@@ -95,8 +32,10 @@ const SingleCharacter = () => {
           return;
         }
         const data: Character = await res.json();
+        let locationTempId: string[] | string = data.url.split('/');
+        locationTempId = locationTempId[locationTempId.length - 1];
+        setLocationId(locationTempId);
         setCharacterObj(data);
-
         const episodeUrls = data.episode;
         const episodePromises = episodeUrls.map((url) =>
           fetch(url).then((res) => res.json())
@@ -131,7 +70,7 @@ const SingleCharacter = () => {
             <img src={`${characterObj.image}`} className="" alt="" />
           </div>
           <div className="flex-1">
-            <h4 className="text-2xl">{characterObj.name}</h4>
+            <h4 className="text-3xl hover:text-orange-600">{characterObj.name}</h4>
             <div className="mb-2">
               <span>
                 <FaCircle className= {`text-center mr-2 inline ${characterObj.status === 'Alive' && 'text-green-600'} ${characterObj.status === 'Dead' && 'text-red-600'} ${characterObj.status === 'Unknown' && 'text-gray-200'}` }  />
@@ -150,9 +89,9 @@ const SingleCharacter = () => {
               <span className="">{characterObj.gender}</span>
             </div>
             <div className="mb-2">
-              <span className="mr-2">Location : </span>
-              <span className="mr-2">{characterObj.location.name}</span>
-              <span className="underline block text-sm"><NavLink to={characterObj.location.url} target="_blank">Know more about location</NavLink></span>
+              {/* <span className="mr-2"></span> */}
+              {/* <span className="mr-2">{characterObj.location.name}</span> */}
+              {locationId &&<span className="block text-lg hover:text-orange-600"><NavLink to={`/location/${locationId}`} >Location : {characterObj.location.name}</NavLink></span> }
             </div>
             <div >
               <span className="mr-2">Created at : </span>
@@ -178,7 +117,7 @@ const SingleCharacter = () => {
               ))}
             </ul>
           ) : (
-            <p>No episodes found</p>
+            <p className="text-center">No episodes found</p>
           )}
         </section>
       </div>

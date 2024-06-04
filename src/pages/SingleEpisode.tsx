@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loader1 from "../component/Loader";
-import { Episode, Character } from '../interface/schema'
+import { Episode, Character } from "../interface/schema";
 
 import { NavLink } from "react-router-dom";
 // import { CiLocationOn } from "react-icons/ci"
@@ -35,11 +35,10 @@ const SingleEpisode = () => {
         const characterPromises = charactersUrls.map((url) =>
           fetch(url).then((res) => res.json())
         );
-        const characterData = await Promise.all(characterPromises);
+        const characterData: Character[] = await Promise.all(characterPromises);
         setIsCharactersLoading(false);
         // console.log(characterData);
         setCharacterList(characterData);
-        
       } catch (error) {
         setIsLoading(false);
         console.error(error);
@@ -57,11 +56,11 @@ const SingleEpisode = () => {
   return (
     <div className="singleepisodecontainer flex flex-col py-8 px-4 bg-gray-100 flex-wrap">
       <h4 className="text-center text-2xl w-full underline">Episode info.</h4>
-      <div className="w-full pt-6 px-16 text-center gap-3 flex  items-center flex-wrap">
+      <div className="w-full pt-6 pb-6 px-16 text-left gap-3 flex justify-around items-center flex-wrap">
         <div className="">
-          <RiMovieLine className="text-6xl" />
+          <RiMovieLine className="text-8xl" />
         </div>
-        <div className="flex-1">
+        <div className="">
           <h4 className="text-3xl font-bold">{episodeobj.name}</h4>
           <div className="mb-2">
             <span className="mr-2">Air_date : </span>
@@ -73,7 +72,7 @@ const SingleEpisode = () => {
           </div>
           <div>
             <NavLink
-              className="pl-12 underline"
+              className="underline"
               to={`https://rickandmortyapi.com/api/episode/${episodeobj.id}`}
             >
               Know more
@@ -82,19 +81,23 @@ const SingleEpisode = () => {
         </div>
       </div>
       <div>
-        <h2 className="text-center pt-8">List of character</h2>
-        {isCharactersLoading ? <Loader1/> :<ul className="py-2  h-[40vh] overflow-x-scroll home_section_page1_char  w-screen text-white flex gap-4">
-          { characterList.length > 0 ? (
-            characterList.map((character, index) => (
-              <li key={index}>
-                {" "}
-                <TempCharacterCard {...character} />
-              </li>
-            ))
-          ) : (
-            <h4>No Character Found</h4>
-          )}
-        </ul>}
+        {isCharactersLoading ? (
+          <Loader1 />
+        ) : characterList && characterList.length > 0 ? (
+          <>
+            <h2 className="text-center pt-8">List of character</h2>
+            <ul className="py-2  h-[40vh] overflow-x-scroll home_section_page1_char  w-screen text-white flex gap-4">
+              {characterList.map((character, index) => (
+                <li key={index}>
+                  {" "}
+                  <TempCharacterCard {...character} />
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p className="text-center text-2xl">No Character Found</p>
+        )}
       </div>
     </div>
   );
