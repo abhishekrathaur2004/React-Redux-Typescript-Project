@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loader1 from "../component/Loader";
-import { Episode, Character } from "../component/Schema";
+import { Episode, Character } from '../interface/schema'
 
 import { NavLink } from "react-router-dom";
 // import { CiLocationOn } from "react-icons/ci"
@@ -13,12 +13,15 @@ const SingleEpisode = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [episodeobj, setEpisodeObj] = useState<Episode | null>(null);
   const [characterList, setCharacterList] = useState<Character[]>([]);
+  const [isCharactersLoading, setIsCharactersLoading] =
+    useState<boolean>(false);
   useEffect(() => {
     const fetchItem = async () => {
       setIsLoading(true);
+      setIsCharactersLoading(true);
       try {
         const res = await fetch(episode_url);
-
+        setIsLoading(false);
         if (!res.ok) {
           setIsLoading(false);
           return;
@@ -33,9 +36,10 @@ const SingleEpisode = () => {
           fetch(url).then((res) => res.json())
         );
         const characterData = await Promise.all(characterPromises);
+        setIsCharactersLoading(false);
         // console.log(characterData);
         setCharacterList(characterData);
-        setIsLoading(false);
+        
       } catch (error) {
         setIsLoading(false);
         console.error(error);
@@ -52,7 +56,7 @@ const SingleEpisode = () => {
   }
   return (
     <div className="singleepisodecontainer flex flex-col py-8 px-4 bg-gray-100 flex-wrap">
-      <h4 className="text-center text-xl w-full">Episode info.</h4>
+      <h4 className="text-center text-2xl w-full underline">Episode info.</h4>
       <div className="w-full pt-6 px-16 text-center gap-3 flex  items-center flex-wrap">
         <div className="">
           <RiMovieLine className="text-6xl" />
@@ -79,8 +83,8 @@ const SingleEpisode = () => {
       </div>
       <div>
         <h2 className="text-center pt-8">List of character</h2>
-        <ul className="py-2  h-[40vh] overflow-x-scroll home_section_page1_char  w-screen text-white flex gap-4">
-          {characterList.length > 0 ? (
+        {isCharactersLoading ? <Loader1/> :<ul className="py-2  h-[40vh] overflow-x-scroll home_section_page1_char  w-screen text-white flex gap-4">
+          { characterList.length > 0 ? (
             characterList.map((character, index) => (
               <li key={index}>
                 {" "}
@@ -90,7 +94,7 @@ const SingleEpisode = () => {
           ) : (
             <h4>No Character Found</h4>
           )}
-        </ul>
+        </ul>}
       </div>
     </div>
   );

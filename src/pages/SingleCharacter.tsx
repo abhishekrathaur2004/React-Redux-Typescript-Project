@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Character, Episode } from "../component/Schema";
+import { Character, Episode } from '../interface/schema'
 import { useParams } from "react-router-dom";
 // import Loader1 from "../component/Loader";
 // import CharacterCard from "../component/CharacterCard";
@@ -10,6 +10,7 @@ import { FaMale } from "react-icons/fa";
 // import { FaMale } from "react-icons/fa";
 import { FaFemale } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";
+import Loader1 from "../component/Loader";
 // import EpisodeCard from "../component/EpisodeCard";
 
 const SingleCharacter = () => {
@@ -78,20 +79,21 @@ const SingleCharacter = () => {
   const [characterObj, setCharacterObj] = useState<Character | null>(null);
   const [episodeList, setEpisodeList] = useState<Episode[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isEpisodesLoading, setIsEpisodesLoading] = useState<boolean>(false);
 
   const character_url: string = `https://rickandmortyapi.com/api/character/${characterid}`;
 
   useEffect(() => {
     const fetchItem = async () => {
       setIsLoading(true);
+      setIsEpisodesLoading(true);
       try {
         const res = await fetch(character_url);
-
+        setIsLoading(false);
         if (!res.ok) {
           setIsLoading(false);
           return;
         }
-
         const data: Character = await res.json();
         setCharacterObj(data);
 
@@ -100,9 +102,10 @@ const SingleCharacter = () => {
           fetch(url).then((res) => res.json())
         );
         const episodeData = await Promise.all(episodePromises);
+        setIsEpisodesLoading(false);
         console.log(episodeData);
         setEpisodeList(episodeData);
-        setIsLoading(false);
+        
       } catch (error) {
         setIsLoading(false);
         console.error(error);
@@ -113,7 +116,7 @@ const SingleCharacter = () => {
   }, [character_url]);
 
   if (isLoading) {
-    return <div className="text-center text-2xl">Loading...</div>;
+    return <Loader1/>
   }
 
   if (!characterObj) {
@@ -122,7 +125,7 @@ const SingleCharacter = () => {
   return (
     <div className="singlecharactercontainer flex py-8 px-4 bg-gray-100 flex-wrap border rounded">
       <div className="characterdetail w-full">
-        <h4 className="text-center pb-4 text-2xl">Character Info</h4>
+        <h4 className="text-center pb-4 text-2xl underline">Character Info</h4>
         <div className="w-full px-16 text-center gap-3 flex  items-center flex-wrap">
           <div className="flex">
             <img src={`${characterObj.image}`} className="" alt="" />
@@ -163,7 +166,8 @@ const SingleCharacter = () => {
         <h4 className="text-center text-xl">List of episodes</h4>
         <section>
           {/* {characters.map((character,index) => (index < 6 ? (<Characters {...character} />) : null))} */}
-          {episodeList.length > 0 ? (
+          { isEpisodesLoading ? <Loader1/> : 
+          episodeList.length > 0 ? (
             <ul className="py-2 px-4 h-[35vh] overflow-x-scroll overflow-y-hidden home_section_page1_char  text-white flex gap-4">
               {episodeList.map((episodeinfo) => (
                 <TempEpisodeCard

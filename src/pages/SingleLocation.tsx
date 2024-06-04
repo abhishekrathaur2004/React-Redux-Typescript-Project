@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Character } from "../component/Schema";
-
-import { Location } from "../component/Schema";
+import { Location, Character } from '../interface/schema'
 // import CharacterCard from "../component/CharacterCard";
 import { NavLink } from "react-router-dom";
 import Loader1 from "../component/Loader";
@@ -44,7 +42,9 @@ const SingleLocation: React.FC = () => {
         console.log(charactersData.length);
         setCharacterList(charactersData);
         // console.log(charactersData);
-        setIsCharactersLoading(false);
+        setTimeout(() => {
+          setIsCharactersLoading(false);
+        }, 1200);
       } catch (error) {
         setIsLocationLoading(false);
         setIsCharactersLoading(false);
@@ -55,14 +55,12 @@ const SingleLocation: React.FC = () => {
   }, [location_url]);
   console.log(locationObj);
   if (isLocationLoading) {
-    return <div className="text-center text-2xl">Loading...</div>;
+    return <Loader1/>
   }
   if (!locationObj) {
     return <div>No Location found</div>;
   }
-  if (isCharactersLoading) {
-    return <Loader1 />;
-  }
+  
   return (
     <div className="singlecharactercontainer text-black py-8 px-4 bg-gray-100 ">
       <div className="singleepisodecontainer py-8 px-4 bg-gray-100">
@@ -91,8 +89,10 @@ const SingleLocation: React.FC = () => {
         </div>
         <div className="episodes px-2 bg-gray-100 pt-14 w-full">
           <p className="text text-center">List of characters</p>
-          <section>
-            {isCharactersLoading && <Loader1/>}
+          {isCharactersLoading ? <Loader1/> : 
+          
+            <section>
+            
             {characterList.length > 0 ? (
               <ul className="py-2 h-[40vh] overflow-x-scroll home_section_page1_char text-white flex gap-4">
                 {characterList.map((characterinfo, index) => (
@@ -105,6 +105,8 @@ const SingleLocation: React.FC = () => {
               <p>No Character found</p>
             )}
           </section>
+          }
+
         </div>
       </div>
     </div>

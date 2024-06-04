@@ -20,40 +20,50 @@ const Home = () => {
   const episodes = useSelector((state: RootState) => state.dataSet.episodes);
   const locations = useSelector((state: RootState) => state.dataSet.locations);
   const dispatch = useDispatch();
-
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(() => {
+    const storedPage = window.localStorage.getItem('currentPage');
+    return storedPage !== null ? parseInt(storedPage, 10) : 1;
+    
+  });
+  
   const handlePageChange = (page: number) => {
+    window.localStorage.setItem('currentPage', page.toString());
     setCurrentPage(page);
   };
   useEffect(() => {
     // if (episodes.length > 0) return;
     // console.log(selectedItem);
     // console.log("kitne baar chla");
-    console.log(currentPage);
+    // console.log(currentPage,'ek');
 
     const datafetching: () => any = async () => {
       if(selectedItem === 'Locations'){
         const d1 = await fetchItem(`https://rickandmortyapi.com/api/location/?page=${currentPage}`);
-        if(d1) console.log(d1);
+        // if(d1) console.log(d1);
         if(d1) dispatch(setLocations(d1.results));
         else dispatch(setLocations([]))
       }
       else if(selectedItem === 'Episodes'){
         const d2 = await fetchItem(`https://rickandmortyapi.com/api/episode/?page=${currentPage}`);
-        if(d2) console.log(d2);
+        // if(d2) console.log(d2);
         if(d2) dispatch(setEpisodes(d2.results));
         else dispatch(setEpisodes([]));
       }
       else if(selectedItem === 'Characters'){
         const d3 = await fetchItem(`https://rickandmortyapi.com/api/character/?page=${currentPage}`);
-        if(d3) console.log(d3);
+        // if(d3) console.log(d3);
         if(d3) dispatch(setCharacters(d3.results));
       }
     };
     datafetching();
   }, [selectedItem,currentPage]);
   useEffect(()=>{
-    setCurrentPage(1);
+    const storedPage = window.localStorage.getItem('currentPage');
+    if(storedPage){
+      setCurrentPage(parseInt(storedPage, 10));
+    }
+    // return (()=> window.localStorage.setItem('currentPage', '1'));
+    
   },[selectedItem])
 
   const DisplayContent: (item : string) => any = (item: string) => {

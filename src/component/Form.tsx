@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Character } from "./Schema";
+import { Character } from '../interface/schema'
 import CharacterCard from "./CharacterCard";
 
 interface FormState {
@@ -114,9 +114,9 @@ const MyForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="text-center flex flex-col justify-center items-center bg-slate-600 py-10"
+      className="text-center flex flex-col justify-center items-center bg-gray-100 py-4"
     >
-      <h4 className="py-6 text-2xl text-white">
+      <h4 className="py-6 text-2xl text-black">
         Search your favorite character
       </h4>
       <div className="mb-6">

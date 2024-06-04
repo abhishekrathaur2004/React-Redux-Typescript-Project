@@ -10,6 +10,7 @@ const SelectForm: React.FC = () => {
     
     function handleChange(e : any){
         // setSelectedItem(e.target.value)
+        window.localStorage.setItem('currentPage', '1');
         dispatch(setSelectedType(e.target.value))
     }
     
@@ -17,7 +18,7 @@ const SelectForm: React.FC = () => {
     return (
         <form className="text-center " >
             <label className="mr-6" htmlFor="mySelect">Choose an option:</label>
-            <select className="text-black"  id="mySelect" onChange={handleChange} value={selectedItem}>
+            <select className="text-black px-2 py-1 border rounded focus:outline-0"  id="mySelect" onChange={handleChange} value={selectedItem}>
                 {options.map((option, index) => (
                     <option key={index} value={option}>
                         {option}

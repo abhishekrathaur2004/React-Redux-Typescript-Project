@@ -20,7 +20,7 @@ const EpisodeCard: React.FC<any> = (props : any) => {
             <h3 className="mb-3 ">Episode : </h3>
             <h4 className="mb-3 text-xl">{props.episode}</h4>            
        </div>
-      <div className="flex-1">
+      <div className="flex">
         <NavLink to={`/episode/${props.id}`}>
             <button className="py-2 px-5  hover:text-green-400"><IoMdArrowRoundForward/></button>
         </NavLink>

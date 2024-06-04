@@ -1,7 +1,7 @@
 //imports
 
 import { createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Character,Location, Dataset, Episode} from '../component/Schema';
+import {Character,Location, Dataset, Episode} from '../interface/schema'
 
 
 // Define the initial state using that type
