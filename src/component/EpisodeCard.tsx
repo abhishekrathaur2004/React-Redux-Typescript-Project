@@ -5,7 +5,7 @@ import { IoMdArrowRoundForward } from "react-icons/io";
 
 const EpisodeCard: React.FC<any> = (props : any) => {
     // const [episodeName, setEpisodeName] = useState('');
-    // console.log(props)
+    console.log(props)
    
     // console.log(episodeName)
   return (

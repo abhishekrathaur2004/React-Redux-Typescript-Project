@@ -4,8 +4,10 @@ import { NavLink } from "react-router-dom";
 
 const CharacterCard: React.FC<any> = (props : any) => {
     const [episodeName, setEpisodeName] = useState('');
-    // console.log(props)
+    // console.log(props);
     const episode_url : string | null = props.episode.length > 0 ? props.episode[0] : null;
+    const epi : any = episode_url?.split('/');
+    const episodeId : string = epi [epi.length-1];
     useEffect(()=>{
         if(!episode_url) return ;
         try {
@@ -45,7 +47,7 @@ const CharacterCard: React.FC<any> = (props : any) => {
             </div>
             <div className="character_episode">
                 <h2 className="text-zinc-500">First seen in : </h2>
-                <NavLink to={`/episode/${props.id}`}>
+                <NavLink to={`/episode/${episodeId}`}>
                     <h4 className=" cursor-pointer hover:text-orange-400">{episodeName ? episodeName : 'null'}</h4>
                 </NavLink>
             </div>
