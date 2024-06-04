@@ -1,5 +1,5 @@
 
-import { Location} from "./Schema";
+import { Location} from "../interface/schema";
 import { NavLink } from "react-router-dom";
 import { CiLocationOn } from "react-icons/ci";
 import { IoMdArrowRoundForward } from "react-icons/io";
