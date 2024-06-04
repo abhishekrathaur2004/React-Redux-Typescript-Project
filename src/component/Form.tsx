@@ -12,12 +12,20 @@ interface FormState {
 
 const MyForm: React.FC = () => {
   let fetchUrl: string = "https://rickandmortyapi.com/api/character/?";
-  const [formData, setFormData] = useState<FormState>({
-    name: "",
-    gender: "",
-    type: "",
-    species: "",
-    status: "",
+  const [formData, setFormData] = useState<FormState>(() => {
+    const res = window.localStorage.getItem('formData');
+    if(res){
+      return JSON.parse(res);
+    }
+    else return (
+      {
+        name : '',
+        species : '',
+        status : '',
+        gender : '',
+        type : ''
+      }
+    )
   });
 
   // loader
@@ -59,9 +67,8 @@ const MyForm: React.FC = () => {
     if (formData.status && formData.status !== "none")
       fetchUrl += `status=${formData.status}&`;
     if (formData.type) fetchUrl += `type=${formData.type}&`;
-
     // if the user haven't put any query
-
+    window.localStorage.setItem('formData', JSON.stringify(formData));
     console.log("here", fetchUrl);
     if (fetchUrl.endsWith("?")) {
       return;
@@ -95,15 +102,15 @@ const MyForm: React.FC = () => {
         setLoading(false);
       };
       fetchItem();
-      setTimeout(() => {
-        setFormData({
-          name: "",
-          gender: "",
-          type: "",
-          species: "",
-          status: "",
-        });
-      }, 1200);
+      // setTimeout(() => {
+      //   setFormData({
+      //     name: "",
+      //     gender: "",
+      //     type: "",
+      //     species: "",
+      //     status: "",
+      //   });
+      // }, 1200);
     } catch (error) {
       setLoading(false);
       console.log();

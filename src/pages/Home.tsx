@@ -27,26 +27,28 @@ const Home = () => {
   useEffect(() => {
     const datafetching: () => any = async () => {
       if (selectedItem === "Locations") {
-        
+
         const d1 = await fetchItem(
           `https://rickandmortyapi.com/api/location/?page=${currentPage}`
         );
-        // if(d1) console.log(d1);
+
         if (d1) dispatch(setLocations(d1.results));
         else dispatch(setLocations([]));
+
       } else if (selectedItem === "Episodes") {
         const d2 = await fetchItem(
           `https://rickandmortyapi.com/api/episode/?page=${currentPage}`
         );
-        // if(d2) console.log(d2);
+       
         if (d2) dispatch(setEpisodes(d2.results));
         else dispatch(setEpisodes([]));
+
       } else if (selectedItem === "Characters") {
         const d3 = await fetchItem(
           `https://rickandmortyapi.com/api/character/?page=${currentPage}`
         );
-        // if(d3) console.log(d3);
         if (d3) dispatch(setCharacters(d3.results));
+        else dispatch(setCharacters([]));
       }
     };
     datafetching();
