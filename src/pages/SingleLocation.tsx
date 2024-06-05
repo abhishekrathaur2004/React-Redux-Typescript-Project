@@ -70,7 +70,8 @@ const SingleLocation: React.FC = () => {
             Location info.
           </h4>
           <div className="flex flex-wrap px-4 gap-6">
-            <div className=" pt-6 px-8 py-16 text-center gap-3 border flex flex-col justify-around items-center flex-wrap">
+  
+            <div className=" pt-6 px-8 py-16 text-center   min-w-56 max-w-72 gap-3 border flex flex-col justify-around items-center flex-wrap">
               <div className="">
                 <CiLocationOn className="text-9xl" />
               </div>
@@ -106,7 +107,7 @@ const SingleLocation: React.FC = () => {
                 </>
               ) : characterList && characterList.length > 0 ? (
                 <>
-                  <ul className="overflow-y-scroll  h-[60vh] px-auto home_section_page1_char w-full flex justify-center flex-wrap text-white  gap-4">
+                  <ul className="overflow-y-scroll  max-h-[60vh] px-auto home_section_page1_char w-full flex justify-center flex-wrap text-white  gap-4">
                     {characterList.map((character, index) => (
                       <li key={index}>
                         {" "}

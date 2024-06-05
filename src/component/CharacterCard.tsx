@@ -3,11 +3,14 @@ import { NavLink } from "react-router-dom";
 import { FaCircle } from "react-icons/fa";
 const CharacterCard: React.FC<any> = (props: any) => {
   const [episodeName, setEpisodeName] = useState("");
-  // console.log(props);
+  console.log(props);
   const episode_url: string | null =
     props.episode.length > 0 ? props.episode[0] : null;
   const epi: any = episode_url?.split("/");
   const episodeId: string = epi[epi.length - 1];
+  let locationId : string = props.location.url.split('/');
+  locationId = locationId[locationId.length-1];
+ 
   useEffect(() => {
     if (!episode_url) return;
     try {
@@ -59,7 +62,7 @@ const CharacterCard: React.FC<any> = (props: any) => {
         </div>
         <div className="character_location mb-4">
           <h2 className="text-zinc-400 text-lg">Last known location:</h2>
-          <NavLink to={`/location/${props.id}`}>
+          <NavLink to={`/location/${locationId}`}>
             <h4 className=" hover:text-orange-400  cursor-pointer">
               {props.location.name}
             </h4>

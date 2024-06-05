@@ -65,13 +65,13 @@ const SingleEpisode = () => {
           <h4 className="text-center text-2xl pb-10 w-full underline">
             Episode info.
           </h4>
-          <div className="flex flex-wrap px-4 gap-6">
-            <div className=" pt-6 px-8 py-16 text-center gap-3 border flex flex-col justify-around items-center flex-wrap">
+          <div className="flex flex-wrap px-4 gap-6 min-h-80">
+            <div className=" pt-6 px-4  py-16 text-center max-w-72 min-w-52 gap-3 border flex flex-col justify-around items-center flex-wrap">
               <div className="">
                 <RiMovieLine className="text-9xl" />
               </div>
               <div className="">
-                <h4 className="text-3xl font-bold">{episodeobj.name}</h4>
+                <h4 className="text-3xl font-bold mb-4">{episodeobj.name}</h4>
                 <div className="mb-4">
                   <span className="mr-2">Air_date : </span>
                   <span>{episodeobj.air_date}</span>
