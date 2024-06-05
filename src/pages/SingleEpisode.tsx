@@ -61,62 +61,63 @@ const SingleEpisode = () => {
       ) : !episodeobj ? (
         <h3>No episode found... !!!</h3>
       ) : (
-        <div className="singleepisodecontainer flex flex-col py-8 px-4 bg-gray-100 flex-wrap">
-          <h4 className="text-center text-2xl w-full underline">
+        <div className="singleepisodecontainer   pb-8 px-8 bg-gray-100 flex-wrap">
+          <h4 className="text-center text-2xl pb-10 w-full underline">
             Episode info.
           </h4>
-          <div className="w-full pt-6 pb-6 px-16 text-left gap-3 flex justify-around items-center flex-wrap">
-            <div className="">
-              <RiMovieLine className="text-8xl" />
+          <div className="flex flex-wrap px-4 gap-6">
+            <div className=" pt-6 px-8 py-16 text-center gap-3 border flex flex-col justify-around items-center flex-wrap">
+              <div className="">
+                <RiMovieLine className="text-9xl" />
+              </div>
+              <div className="">
+                <h4 className="text-3xl font-bold">{episodeobj.name}</h4>
+                <div className="mb-4">
+                  <span className="mr-2">Air_date : </span>
+                  <span>{episodeobj.air_date}</span>
+                </div>
+                <div className="mb-4">
+                  <span className="mr-2">Episode : </span>
+                  <span className="mr-2 font-bold">{episodeobj.episode}</span>
+                </div>
+                <div>
+                  <NavLink
+                    className="underline"
+                    to={`https://rickandmortyapi.com/api/episode/${episodeobj.id}`}
+                  >
+                    Know more
+                  </NavLink>
+                </div>
+              </div>
             </div>
-            <div className="">
-              <h4 className="text-3xl font-bold">{episodeobj.name}</h4>
-              <div className="mb-2">
-                <span className="mr-2">Air_date : </span>
-                <span>{episodeobj.air_date}</span>
-              </div>
-              <div className="mb-2">
-                <span className="mr-2">Episode : </span>
-                <span className="mr-2 font-bold">{episodeobj.episode}</span>
-              </div>
-              <div>
-                <NavLink
-                  className="underline"
-                  to={`https://rickandmortyapi.com/api/episode/${episodeobj.id}`}
-                >
-                  Know more
-                </NavLink>
-              </div>
+            <div className="flex-1">
+              {isCharactersLoading ? (
+                <>
+                  <Loader1 />
+                  <h2 className="text-md text-center">
+                    List of characters loading
+                  </h2>
+                </>
+              ) : characterList && characterList.length > 0 ? (
+                <>
+                  
+                  <ul className="overflow-y-scroll  h-[60vh] px-auto home_section_page1_char w-full flex justify-center flex-wrap text-white  gap-4">
+                    {characterList.map((character, index) => (
+                      <li key={index}>
+                        {" "}
+                        <TempCharacterCard {...character} />
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <p className="text-center text-2xl">No Character Found</p>
+              )}
             </div>
-          </div>
-          <div>
-            {isCharactersLoading ? (
-              <>
-                <Loader1 />
-                <h2 className="text-md text-center">
-                  List of characters loading
-                </h2>
-              </>
-            ) : characterList && characterList.length > 0 ? (
-              <>
-                <h2 className="text-center text-lg pt-8">List of characters</h2>
-                <ul className="py-2  h-[40vh] overflow-x-scroll home_section_page1_char  w-screen text-white flex gap-4">
-                  {characterList.map((character, index) => (
-                    <li key={index}>
-                      {" "}
-                      <TempCharacterCard {...character} />
-                    </li>
-                  ))}
-                </ul>
-              </>
-            ) : (
-              <p className="text-center text-2xl">No Character Found</p>
-            )}
           </div>
         </div>
       )}
     </>
-
   );
 };
 const TempCharacterCard: React.FC<Character> = (props: Character) => {

@@ -5,7 +5,8 @@ import { Location, Character } from "../interface/schema";
 import { NavLink } from "react-router-dom";
 import { Loader1, Loader2 } from "../component/Loader";
 import BackButton from "../component/BackButton";
-
+// import { RiMovieLine } from "react-icons/ri";
+import { CiLocationOn } from "react-icons/ci";
 const SingleLocation: React.FC = () => {
   const { locationid } = useParams();
   const location_url: string = `https://rickandmortyapi.com/api/location/${locationid}`;
@@ -64,31 +65,38 @@ const SingleLocation: React.FC = () => {
       ) : !locationObj ? (
         <div>No Location found</div>
       ) : (
-        <div className="singlecharactercontainer text-black py-8 px-4 bg-gray-100 ">
-          <div className="singleepisodecontainer py2 px-4 bg-gray-100">
-            <div className="w-full pt-2 text-center gap-3 flex justify-center items-center flex-col  flex-wrap">
-              <h4 className="text-2xl underline">Location info </h4>
-              <div className="flex-1">
-                <h4 className="text-3xl font-bold">{locationObj.name}</h4>
-                <div className="mb-2 ">
-                  <span className="mr-2">Type :</span>
-                  <span>{locationObj.type}</span>
+        <div className="singleepisodecontainer   pb-8 px-8 bg-gray-100 flex-wrap">
+          <h4 className="text-center text-2xl pb-10 w-full underline">
+            Location info.
+          </h4>
+          <div className="flex flex-wrap px-4 gap-6">
+            <div className=" pt-6 px-8 py-16 text-center gap-3 border flex flex-col justify-around items-center flex-wrap">
+              <div className="">
+                <CiLocationOn className="text-9xl" />
+              </div>
+              <div className="">
+                <h4 className="text-3xl font-bold mb-4">{locationObj.name}</h4>
+                <div className="mb-4">
+                  <span className="">Created: </span>
+                  <span>{locationObj.created}</span>
                 </div>
-                <div className="mb-2">
-                  <span className="mr-2">Dimension :</span>
-                  <span className="font-bold">{locationObj.dimension}</span>
+                <div className="mb-4">
+                  <span className="">Dimension : </span>
+                  <span className="mr-2 font-bold">
+                    {locationObj.dimension}
+                  </span>
                 </div>
                 <div>
                   <NavLink
                     className="underline"
-                    to={`https://rickandmortyapi.com/api/episode/${locationObj.id}`}
+                    to={`https://rickandmortyapi.com/api/location/${locationObj.id}`}
                   >
                     Know more
                   </NavLink>
                 </div>
               </div>
             </div>
-            <div className="episodes px-2 bg-gray-100 pt-14 w-full">
+            <div className="flex-1">
               {isCharactersLoading ? (
                 <>
                   <Loader1 />
@@ -96,25 +104,19 @@ const SingleLocation: React.FC = () => {
                     List of characters loading
                   </h2>
                 </>
+              ) : characterList && characterList.length > 0 ? (
+                <>
+                  <ul className="overflow-y-scroll  h-[60vh] px-auto home_section_page1_char w-full flex justify-center flex-wrap text-white  gap-4">
+                    {characterList.map((character, index) => (
+                      <li key={index}>
+                        {" "}
+                        <TempCharacterCard {...character} />
+                      </li>
+                    ))}
+                  </ul>
+                </>
               ) : (
-                <section>
-                  {characterList.length > 0 ? (
-                    <>
-                      <p className="text-lg text-center">List of characters</p>
-                      <ul className="py-2 h-[40vh] overflow-x-scroll home_section_page1_char text-white flex gap-4">
-                        {characterList.map((characterinfo, index) => (
-                          <li key={index}>
-                            <TempCharacterCard {...characterinfo} />
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  ) : (
-                    <p className="text-center text-2xl">
-                      No Character found !!
-                    </p>
-                  )}
-                </section>
+                <p className="text-center text-2xl">No Character Found</p>
               )}
             </div>
           </div>
@@ -127,7 +129,7 @@ const TempCharacterCard: React.FC<Character> = (props: Character) => {
   return (
     <article
       key={props.id}
-      className="character bg-gray-100 rounded flex min-w-56"
+      className="character bg-gray-400 rounded flex min-w-56"
     >
       <div className="character-image flex-1 relative">
         <NavLink to={`/character/${props.id}`}>
