@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Character } from '../interface/schema'
 import CharacterCard from "./CharacterCard";
+import { Loader1 } from "./Loader";
 
 interface FormState {
   name: string;
@@ -99,18 +100,12 @@ const MyForm: React.FC = () => {
         const characterArray: Character[] = dataArray;
         console.log(characterArray.length);
         setSearchedItem(characterArray);
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 900);
       };
       fetchItem();
-      // setTimeout(() => {
-      //   setFormData({
-      //     name: "",
-      //     gender: "",
-      //     type: "",
-      //     species: "",
-      //     status: "",
-      //   });
-      // }, 1200);
+
     } catch (error) {
       setLoading(false);
       console.log();
@@ -136,16 +131,7 @@ const MyForm: React.FC = () => {
           placeholder="Name"
         />
       </div>
-      <div className="mb-6">
-        <input
-          type="text"
-          name="species"
-          value={formData.species}
-          onChange={handleChange}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Species"
-        />
-      </div>
+      
       <div className="mb-6 flex justify-between text-gray-50 bg-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-60 p-2.5">
         <label className="text-left flex-1" htmlFor="gender">
           Gender:
@@ -184,11 +170,21 @@ const MyForm: React.FC = () => {
       <div className="mb-6">
         <input
           type="text"
+          name="species"
+          value={formData.species}
+          onChange={handleChange}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Species  (Optional)"
+        />
+      </div>
+      <div className="mb-6">
+        <input
+          type="text"
           name="type"
           value={formData.type}
           onChange={handleChange}
           className="bg-gray-50 border border-gray-300 text-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Type"
+          placeholder="Type   (Optional)"
         />
       </div>
       <div>
@@ -201,9 +197,11 @@ const MyForm: React.FC = () => {
       </div>
 
       {loading ? (
-        <> loading</>
+        <div className="">
+          <Loader1/>
+        </div>
       ) : (
-        <section className="py-20 px-14 home_section_page1_char   text-white grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
+        <section className="py-10 px-14 home_section_page1_char   text-white grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
           {/* {characters.map((character,index) => (index < 6 ? (<Characters {...character} />) : null))} */}
           {searchedItem ? (
             searchedItem.length > 0 ? (

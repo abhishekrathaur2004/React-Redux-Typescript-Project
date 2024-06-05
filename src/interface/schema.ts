@@ -4,7 +4,10 @@ export interface Location2{
 export interface Origin{
     name : string, url : string
 }
-
+export interface Loaderprops{
+    color ?: string
+    bgColor ?: string
+}
 export interface Character {
     created : string;
     episode : string[];

@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { Location, Character } from "../interface/schema";
 // import CharacterCard from "../component/CharacterCard";
 import { NavLink } from "react-router-dom";
-import Loader1 from "../component/Loader";
+import { Loader1, Loader2 } from "../component/Loader";
+import BackButton from "../component/BackButton";
 
 const SingleLocation: React.FC = () => {
   const { locationid } = useParams();
@@ -22,7 +23,9 @@ const SingleLocation: React.FC = () => {
         const res = await fetch(location_url);
         const data: any = await res.json();
         setLocationObj(data);
-        setIsLocationLoading(false);
+        setTimeout(() => {
+          setIsLocationLoading(false);
+        }, 900);
 
         const characterList: any = data.residents;
         const ids = characterList.map((list: string) => {
@@ -43,7 +46,7 @@ const SingleLocation: React.FC = () => {
         // console.log(charactersData);
         setTimeout(() => {
           setIsCharactersLoading(false);
-        }, 1200);
+        }, 2100);
       } catch (error) {
         setIsLocationLoading(false);
         setIsCharactersLoading(false);
@@ -52,63 +55,72 @@ const SingleLocation: React.FC = () => {
     };
     fetchData();
   }, [location_url]);
-  console.log(locationObj);
-  if (isLocationLoading) {
-    return <Loader1 />;
-  }
-  if (!locationObj) {
-    return <div>No Location found</div>;
-  }
-
+  // console.log(locationObj);
   return (
-    <div className="singlecharactercontainer text-black py-8 px-4 bg-gray-100 ">
-      <div className="singleepisodecontainer py2 px-4 bg-gray-100">
-        <div className="w-full pt-2 text-center gap-3 flex justify-center items-center flex-col  flex-wrap">
-          <h4 className="text-2xl underline">Location info </h4>
-          <div className="flex-1">
-            <h4 className="text-3xl font-bold">{locationObj.name}</h4>
-            <div className="mb-2 ">
-              <span className="mr-2">Type :</span>
-              <span>{locationObj.type}</span>
+    <>
+      <BackButton />
+      {isLocationLoading ? (
+        <Loader2 />
+      ) : !locationObj ? (
+        <div>No Location found</div>
+      ) : (
+        <div className="singlecharactercontainer text-black py-8 px-4 bg-gray-100 ">
+          <div className="singleepisodecontainer py2 px-4 bg-gray-100">
+            <div className="w-full pt-2 text-center gap-3 flex justify-center items-center flex-col  flex-wrap">
+              <h4 className="text-2xl underline">Location info </h4>
+              <div className="flex-1">
+                <h4 className="text-3xl font-bold">{locationObj.name}</h4>
+                <div className="mb-2 ">
+                  <span className="mr-2">Type :</span>
+                  <span>{locationObj.type}</span>
+                </div>
+                <div className="mb-2">
+                  <span className="mr-2">Dimension :</span>
+                  <span className="font-bold">{locationObj.dimension}</span>
+                </div>
+                <div>
+                  <NavLink
+                    className="underline"
+                    to={`https://rickandmortyapi.com/api/episode/${locationObj.id}`}
+                  >
+                    Know more
+                  </NavLink>
+                </div>
+              </div>
             </div>
-            <div className="mb-2">
-              <span className="mr-2">Dimension :</span>
-              <span className="font-bold">{locationObj.dimension}</span>
-            </div>
-            <div>
-              <NavLink
-                className="underline"
-                to={`https://rickandmortyapi.com/api/episode/${locationObj.id}`}
-              >
-                Know more
-              </NavLink>
+            <div className="episodes px-2 bg-gray-100 pt-14 w-full">
+              {isCharactersLoading ? (
+                <>
+                  <Loader1 />
+                  <h2 className="text-md text-center">
+                    List of characters loading
+                  </h2>
+                </>
+              ) : (
+                <section>
+                  {characterList.length > 0 ? (
+                    <>
+                      <p className="text-lg text-center">List of characters</p>
+                      <ul className="py-2 h-[40vh] overflow-x-scroll home_section_page1_char text-white flex gap-4">
+                        {characterList.map((characterinfo, index) => (
+                          <li key={index}>
+                            <TempCharacterCard {...characterinfo} />
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : (
+                    <p className="text-center text-2xl">
+                      No Character found !!
+                    </p>
+                  )}
+                </section>
+              )}
             </div>
           </div>
         </div>
-        <div className="episodes px-2 bg-gray-100 pt-14 w-full">
-          {isCharactersLoading ? (
-            <Loader1 />
-          ) : (
-            <section>
-              {characterList.length > 0 ? (
-                <>
-                  <p className="text text-center">List of characters</p>
-                  <ul className="py-2 h-[40vh] overflow-x-scroll home_section_page1_char text-white flex gap-4">
-                    {characterList.map((characterinfo, index) => (
-                      <li key={index}>
-                        <TempCharacterCard {...characterinfo} />
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              ) : (
-                <p className="text-center text-2xl">No Character found !!</p>
-              )}
-            </section>
-          )}
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 const TempCharacterCard: React.FC<Character> = (props: Character) => {

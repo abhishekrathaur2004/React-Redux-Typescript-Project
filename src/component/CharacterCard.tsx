@@ -28,7 +28,7 @@ const CharacterCard: React.FC<any> = (props: any) => {
       key={props.id}
       className={`${
         props.bgColor || `bg-neutral-700`
-      } characte  rounded flex min-w-56`}
+      } characte  rounded flex min-w-56 `}
     >
       <div className="character-image flex-1 ">
         <img

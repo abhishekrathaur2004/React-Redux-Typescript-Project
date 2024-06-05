@@ -7,9 +7,10 @@ import { setCharacters, setEpisodes, setLocations } from "../feature/dataSlice";
 import SelectForm from "../component/SelectOpt";
 import Pagination from "../component/Pagination";
 import DisplayContent from "../component/DisplayContent";
-const Home = () => {
-  // const [selectedItem, setSelectedItem] = useState<string>("Characters");
 
+// import { Loader1 } from "../component/Loader";
+const Home = () => {
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
   const selectedItem = useSelector(
     (state: RootState) => state.dataSet.selectedType
   );
@@ -24,40 +25,42 @@ const Home = () => {
     window.localStorage.setItem("currentPage", page.toString());
     setCurrentPage(page);
   };
+  const datafetching: () => any = async () => {
+    // setIsLoading(true);
+    if (selectedItem === "Locations") {
+      
+      const d1 = await fetchItem(
+        `https://rickandmortyapi.com/api/location/?page=${currentPage}`
+      );
+
+      if (d1) dispatch(setLocations(d1.results));
+      else dispatch(setLocations([]));
+    } else if (selectedItem === "Episodes") {
+      const d2 = await fetchItem(
+        `https://rickandmortyapi.com/api/episode/?page=${currentPage}`
+      );
+
+      if (d2) dispatch(setEpisodes(d2.results));
+      else dispatch(setEpisodes([]));
+    } else if (selectedItem === "Characters") {
+      const d3 = await fetchItem(
+        `https://rickandmortyapi.com/api/character/?page=${currentPage}`
+      );
+      if (d3) dispatch(setCharacters(d3.results));
+      else dispatch(setCharacters([]));
+    }
+    // setIsLoading(false);
+  };
   useEffect(() => {
-    const datafetching: () => any = async () => {
-      if (selectedItem === "Locations") {
-
-        const d1 = await fetchItem(
-          `https://rickandmortyapi.com/api/location/?page=${currentPage}`
-        );
-
-        if (d1) dispatch(setLocations(d1.results));
-        else dispatch(setLocations([]));
-
-      } else if (selectedItem === "Episodes") {
-        const d2 = await fetchItem(
-          `https://rickandmortyapi.com/api/episode/?page=${currentPage}`
-        );
-       
-        if (d2) dispatch(setEpisodes(d2.results));
-        else dispatch(setEpisodes([]));
-
-      } else if (selectedItem === "Characters") {
-        const d3 = await fetchItem(
-          `https://rickandmortyapi.com/api/character/?page=${currentPage}`
-        );
-        if (d3) dispatch(setCharacters(d3.results));
-        else dispatch(setCharacters([]));
-      }
-    };
     datafetching();
+  
   }, [selectedItem, currentPage]);
   useEffect(() => {
     const storedPage = window.localStorage.getItem("currentPage");
     if (storedPage) {
       setCurrentPage(parseInt(storedPage, 10));
     }
+
     // return (()=> window.localStorage.setItem('currentPage', '1'));
   }, [selectedItem]);
 
@@ -83,10 +86,11 @@ const Home = () => {
             />
           </div>
         </div>
-        <section className="py-20 px-14 home_section_page1_char  text-white grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
-          {/* {characters.map((character,index) => (index < 6 ? (<Characters {...character} />) : null))} */}
-          {DisplayContent()}
-        </section>
+        
+          <section className="py-20 px-14 home_section_page1_char  text-white grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
+            {DisplayContent()}
+          </section>
+        )
       </div>
     </div>
   );

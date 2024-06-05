@@ -11,12 +11,12 @@ const DisplayContent: () => any = () => {
     const locations = useSelector((state: RootState) => state.dataSet.locations);
     switch (selectedItem) {
       case "Characters":
-        return characters.map((character) => <CharacterCard {...character} />);
+        return characters.map((character, index) => <CharacterCard {...character} key={index} />);
       case "Locations":
-        return locations.map((location) => <LocationCard {...location} />);
+        return locations.map((location, index) => <LocationCard {...location} key={index} />);
       case "Episodes":
         return episodes.length > 0 ? (
-          episodes.map((episode) => <EpisodeCard {...episode} />)
+          episodes.map((episode, index) => <EpisodeCard {...episode} key={index} />)
         ) : (
           null
         );

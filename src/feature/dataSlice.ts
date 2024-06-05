@@ -11,7 +11,7 @@ const initialState: Dataset  = {
   characters : [],
   episodes : [],
   locations : [],
-  selectedType : 'Characters'
+  selectedType : 'Characters',
 };
 
 
