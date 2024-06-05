@@ -130,12 +130,12 @@ const TempEpisodeCard: React.FC<any> = (props: any) => {
   return (
     <article
       key={props.id}
-      className={`episode ${props.bgColor || "bg-neutral-600"} ${
+      className={`episode ${props.bgColor || "bg-gray-100"} ${
         props.fontColor || "text-bllack"
       } px-8 min-w-64   rounded flex items-center`}
     >
-      <NavLink className="flex flex-col h-64" to={`/episode/${props.id}`}>
-        <div className="min-w-4">
+      <NavLink className="flex flex-col p-6 items-center justify-center text-center h-64" to={`/episode/${props.id}`}>
+        <div className="min-w-4 text-center">
           <PiTelevisionLight className="w-full  h-32" />
         </div>
         <div className="flex flex-col h-full text-center ">
