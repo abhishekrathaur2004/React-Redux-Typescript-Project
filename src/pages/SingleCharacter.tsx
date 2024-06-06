@@ -63,7 +63,7 @@ const SingleCharacter = () => {
       ) : !characterObj ? (
         <h3 className="text-center">No Character Found</h3>
       ) : (
-        <div className="singlecharactercontainer flex py-8 px-4 bg-gray-100 flex-wrap">
+        <div className="singlecharactercontainer  animate-slideIn flex py-8 px-4 bg-gray-100 flex-wrap">
           <div className="characterdetail w-full">
             <h4 className="text-center pb-4 text-2xl underline">
               Character Info
@@ -108,8 +108,7 @@ const SingleCharacter = () => {
                   <span className="">{characterObj.gender}</span>
                 </div>
                 <div className="mb-2">
-                  {/* <span className="mr-2"></span> */}
-                  {/* <span className="mr-2">{characterObj.location.name}</span> */}
+                  
                   {locationId && (
                     <span className="block text-lg hover:text-orange-600">
                       <NavLink to={`/location/${locationId}`}>
@@ -127,7 +126,7 @@ const SingleCharacter = () => {
           </div>
           <div className="episodes px-2 pt-14 bg-gray-100 w-full ">
             <section>
-              {/* {characters.map((character,index) => (index < 6 ? (<Characters {...character} />) : null))} */}
+              
               {isEpisodesLoading ? (
                 <>
                   <Loader1 />

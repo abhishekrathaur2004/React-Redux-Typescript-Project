@@ -1,54 +1,88 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Location, Character } from "../interface/schema";
-// import CharacterCard from "../component/CharacterCard";
 import { NavLink } from "react-router-dom";
 import { Loader1, Loader2 } from "../component/Loader";
 import BackButton from "../component/BackButton";
-// import { RiMovieLine } from "react-icons/ri";
 import { CiLocationOn } from "react-icons/ci";
+
+
 const SingleLocation: React.FC = () => {
+
+  // getting location id
   const { locationid } = useParams();
   const location_url: string = `https://rickandmortyapi.com/api/location/${locationid}`;
+
+  //location obj will be used for displaying location details
   const [locationObj, setLocationObj] = useState<Location | null>(null);
+
+  //list of characters which were on that location will be fetched by api
   const [characterList, setCharacterList] = useState<Character[]>([]);
+
+  // loader state
   const [isLocationLoading, setIsLocationLoading] = useState<boolean>(false);
-  const [isCharactersLoading, setIsCharactersLoading] =
-    useState<boolean>(false);
+  const [isCharactersLoading, setIsCharactersLoading] = useState<boolean>(false);
 
   useEffect(() => {
+
+    // if locational url is null might not be.
+    if(!location_url) return ;
+
+
     const fetchData = async () => {
+
+      // setting loader state true for while making a api call
+      setIsLocationLoading(true);
+      setIsCharactersLoading(true);
+
       try {
-        setIsLocationLoading(true);
-        setIsCharactersLoading(true);
+
+        // request is being made
         const res = await fetch(location_url);
         const data: any = await res.json();
+
+        // setting up a location detail in locationalobj state variable
         setLocationObj(data);
+
+        // here is loader will be false after .9 sec 
+
         setTimeout(() => {
           setIsLocationLoading(false);
         }, 900);
 
+
+        // temporary variable for stroign characters details
         const characterList: any = data.residents;
+
+        // fetching id of all characters from their url so that api can be hitted
         const ids = characterList.map((list: string) => {
           const index = list.split("/");
           return index[index.length - 1];
         });
-        console.log(ids);
+
+        // making promise for all characters.
+
         const charactersPromises = ids.map((id: string) =>
           fetch(`https://rickandmortyapi.com/api/character/${id}`).then((res) =>
             res.json()
           )
         );
-        const charactersData: Character[] = await Promise.all(
-          charactersPromises
-        );
-        console.log(charactersData.length);
+
+       // promise is being made to change the state from pending to fulfilled or failed
+
+        const charactersData: Character[] = await Promise.all(charactersPromises);
+
+        // setting up character list
         setCharacterList(charactersData);
-        // console.log(charactersData);
+ 
+        // loader is being made to change the state from true to false in asynchronous way
+
         setTimeout(() => {
           setIsCharactersLoading(false);
         }, 2100);
       } catch (error) {
+
+        // // loader is being made to change the state from true to false in asynchronous way in error case
         setIsLocationLoading(false);
         setIsCharactersLoading(false);
         console.log(error);
@@ -56,7 +90,7 @@ const SingleLocation: React.FC = () => {
     };
     fetchData();
   }, [location_url]);
-  // console.log(locationObj);
+
   return (
     <>
       <BackButton />
@@ -65,7 +99,7 @@ const SingleLocation: React.FC = () => {
       ) : !locationObj ? (
         <div>No Location found</div>
       ) : (
-        <div className="singleepisodecontainer   pb-8 px-8 bg-gray-100 flex-wrap">
+        <div className="singleepisodecontainer  animate-slideIn   pb-8 px-8 bg-gray-100 flex-wrap">
           <h4 className="text-center text-2xl pb-10 w-full underline">
             Location info.
           </h4>
@@ -107,7 +141,7 @@ const SingleLocation: React.FC = () => {
                 </>
               ) : characterList && characterList.length > 0 ? (
                 <>
-                  <ul className="overflow-y-scroll  max-h-[60vh] px-auto home_section_page1_char w-full flex justify-center flex-wrap text-white  gap-4">
+                  <ul className="overflow-y-scroll  animate-slideIn  max-h-[60vh] px-auto home_section_page1_char w-full flex justify-center flex-wrap text-white  gap-4">
                     {characterList.map((character, index) => (
                       <li key={index}>
                         {" "}

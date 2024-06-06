@@ -115,7 +115,7 @@ const MyForm: React.FC = () => {
       <BackButton />
       <form
         onSubmit={handleSubmit}
-        className="text-center flex flex-col justify-center items-center bg-gray-100 py-4"
+        className="text-center flex flex-col  animate-slideIn justify-center items-center bg-gray-100 py-4"
       >
         <h4 className="py-6 text-2xl text-black">
           Search your favorite character
@@ -200,7 +200,7 @@ const MyForm: React.FC = () => {
             <Loader1 />
           </div>
         ) : (
-          <section className="py-10 px-14 home_section_page1_char   text-white grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
+          <section className="py-10 px-14 home_section_page1_char  animate-slideIn  text-white grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
             {/* {characters.map((character,index) => (index < 6 ? (<Characters {...character} />) : null))} */}
             {searchedItem ? (
               searchedItem.length > 0 ? (

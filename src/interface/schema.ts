@@ -50,4 +50,6 @@ export interface Dataset{
     locations : Location[]
     bgColor? : string;
     selectedType : string
+    count :  number,
+    isDataSetLoading : boolean
 }

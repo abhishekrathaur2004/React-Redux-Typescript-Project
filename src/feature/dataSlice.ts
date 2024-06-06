@@ -4,14 +4,14 @@ import { createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Character,Location, Dataset, Episode} from '../interface/schema'
 
 
-// Define the initial state using that type
-
-
 const initialState: Dataset  = {
   characters : [],
   episodes : [],
   locations : [],
   selectedType : 'Characters',
+  count : 0,
+  isDataSetLoading : false
+
 };
 
 
@@ -30,11 +30,17 @@ export const datasetSlice = createSlice({
     },
     setSelectedType(state , action : PayloadAction<string>){
       state.selectedType = action.payload
+    },
+    setCount(state, action:PayloadAction<number>) {
+      state.count = action.payload;
+    },
+    setDataSetLoading(state, action:PayloadAction<boolean>){
+      state.isDataSetLoading = action.payload;
     }
-        
+    
   },
 });
 
-export const { setCharacters, setEpisodes, setLocations , setSelectedType} = datasetSlice.actions;
+export const { setCharacters, setEpisodes, setLocations , setSelectedType,setCount,setDataSetLoading} = datasetSlice.actions;
 
 export default datasetSlice.reducer;

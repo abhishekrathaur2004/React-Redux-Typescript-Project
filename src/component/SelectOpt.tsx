@@ -16,8 +16,8 @@ const SelectForm: React.FC = () => {
     
 
     return (
-        <form className="text-center " >
-            <label className="mr-6" htmlFor="mySelect">Choose an option:</label>
+        <form className="text-center flex flex-col" >
+            <label className="mr-4" htmlFor="mySelect">Choose an option:</label>
             <select className="text-black px-2 py-1 border rounded focus:outline-0"  id="mySelect" onChange={handleChange} value={selectedItem}>
                 {options.map((option, index) => (
                     <option key={index} value={option}>

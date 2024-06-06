@@ -1,20 +1,26 @@
-// import Characters from "../component/Characters"
 import { useEffect, useState } from "react";
 import Hero from "../component/Hero";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
-import { setCharacters, setEpisodes, setLocations } from "../feature/dataSlice";
+import {
+  setCharacters,
+  setCount,
+  setEpisodes,
+  setLocations,
+  setDataSetLoading
+} from "../feature/dataSlice";
 import SelectForm from "../component/SelectOpt";
 import Pagination from "../component/Pagination";
 import DisplayContent from "../component/DisplayContent";
+import { Loader2 } from "../component/Loader";
 
-// import { Loader1 } from "../component/Loader";
+
 const Home = () => {
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
-  const selectedItem = useSelector(
-    (state: RootState) => state.dataSet.selectedType
-  );
 
+  // selector 
+  const selectedItem = useSelector((state: RootState) => state.dataSet.selectedType);
+  const count = useSelector((state: RootState) => state.dataSet.count);
+  const isDataSetLoading = useSelector((state : RootState) => state.dataSet.isDataSetLoading)
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState<number>(() => {
     const storedPage = window.localStorage.getItem("currentPage");
@@ -26,59 +32,76 @@ const Home = () => {
     setCurrentPage(page);
   };
   const datafetching: () => any = async () => {
-    // setIsLoading(true);
+    
     if (selectedItem === "Locations") {
-      
       const d1 = await fetchItem(
         `https://rickandmortyapi.com/api/location/?page=${currentPage}`
       );
 
-      if (d1) dispatch(setLocations(d1.results));
-      else dispatch(setLocations([]));
+      if (d1) {
+        dispatch(setLocations(d1.results));
+
+        dispatch(setCount(d1.results.length));
+      } else {
+        dispatch(setLocations([]));
+        dispatch(setCount(0));
+      }
     } else if (selectedItem === "Episodes") {
       const d2 = await fetchItem(
         `https://rickandmortyapi.com/api/episode/?page=${currentPage}`
       );
 
-      if (d2) dispatch(setEpisodes(d2.results));
-      else dispatch(setEpisodes([]));
+      if (d2) {
+        dispatch(setEpisodes(d2.results));
+        dispatch(setCount(d2.results.length));
+      } else {
+        dispatch(setEpisodes([]));
+        dispatch(setCount(0));
+      }
     } else if (selectedItem === "Characters") {
       const d3 = await fetchItem(
         `https://rickandmortyapi.com/api/character/?page=${currentPage}`
       );
-      if (d3) dispatch(setCharacters(d3.results));
-      else dispatch(setCharacters([]));
+      if (d3) {
+        dispatch(setCharacters(d3.results));
+        dispatch(setCount(d3.results.length));
+      } else {
+        dispatch(setCharacters([]));
+        dispatch(setCount(0));
+      }
     }
-    // setIsLoading(false);
+      
   };
   useEffect(() => {
+
     datafetching();
-  
+    dispatch(setDataSetLoading(false))
+    
   }, [selectedItem, currentPage]);
   useEffect(() => {
     const storedPage = window.localStorage.getItem("currentPage");
     if (storedPage) {
       setCurrentPage(parseInt(storedPage, 10));
     }
+    
 
-    // return (()=> window.localStorage.setItem('currentPage', '1'));
   }, [selectedItem]);
 
   return (
     <div className="home_page ">
       <Hero />
       <div className="100vw bg-slate-800">
-        <div className="flex justify-between text-xl items-center px-20">
-          <div className="text-center pt-10 text-white">
+        <div className="flex pt-6 justify-between  lg:text-[20px] xl:flex-row lg:flex-col lg:gap-4 items-center px-20">
+          <div className="text-center text-white lg:text-[25px] xl: text-[30px] ">
             {/* <SelectForm setSelectedItem={setSelectedItem} /> */}
             <SelectForm />
           </div>
           <div>
-            <h2 className="text-center pt-10 text-white text-4xl">
-              {selectedItem}
+            <h2 className="text-center text-white lg:text-[35px] xl: text-[45px] ">
+              {selectedItem} - {count}
             </h2>
           </div>
-          <div className="text-center pt-10 text-xl">
+          <div className="text-center lg:text-[35px] ">
             <Pagination
               currentPage={currentPage}
               onPageChange={handlePageChange}
@@ -86,11 +109,14 @@ const Home = () => {
             />
           </div>
         </div>
+        {
+          isDataSetLoading ?<Loader2/> : (
+            <section className="py-20 px-14 home_section_page1_char  text-white grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 lg:gap-6 2xl:grid-cols-3 gap-4">
+          {DisplayContent()}
+        </section>
+          )
+        }
         
-          <section className="py-20 px-14 home_section_page1_char  text-white grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
-            {DisplayContent()}
-          </section>
-        )
       </div>
     </div>
   );
